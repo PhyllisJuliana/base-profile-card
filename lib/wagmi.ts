@@ -2,12 +2,15 @@
 import { base } from "wagmi/chains";
 import { injected } from "wagmi/connectors";
 
-const builderCodeSuffix =
-  process.env.NEXT_PUBLIC_BUILDER_CODE_SUFFIX ||
-  "TODO_REPLACE_WITH_BASE_BUILDER_CODE_SUFFIX";
+export const baseBuilderCode =
+  process.env.NEXT_PUBLIC_BUILDER_CODE_SUFFIX || "bc_ggxl2wdn";
 
-// TODO: Replace builderCodeSuffix with the real Base builder code / encoded string
-// provided for this app so all attribution remains consistent across the app.
+export const baseBuilderEncoded =
+  process.env.NEXT_PUBLIC_BUILDER_CODE_ENCODED ||
+  "0x62635f6767786c3277646e0b0080218021802180218021802180218021";
+
+// Keep both the readable builder code and the encoded 8021 payload together
+// so downstream attribution wiring can use a single source of truth.
 export const wagmiConfig = createConfig({
   chains: [base],
   connectors: [
@@ -15,7 +18,7 @@ export const wagmiConfig = createConfig({
       target() {
         return {
           id: "injected",
-          name: `Injected Wallet (${builderCodeSuffix})`,
+          name: `Injected Wallet (${baseBuilderCode})`,
           provider:
             typeof window !== "undefined"
               ? (window as Window & typeof globalThis & { ethereum?: any }).ethereum
